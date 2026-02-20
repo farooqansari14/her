@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sara 🌸</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Lato', sans-serif;
+  background: #0a0a0a;
+  color: #fff;
+  overflow-x: hidden;
+  /* prevent iOS rubber-band from breaking fixed elements */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ─── STICKY NAME HEADER ─── */
+#name-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  height: 100dvh; /* dynamic viewport on mobile */
+  pointer-events: none;
+  transition: height 0.6s ease, padding 0.6s ease;
+}
+
+.name-text {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(4.5rem, 22vw, 14rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  background: linear-gradient(135deg, #f5c6d0, #e8a0b4, #d4687e, #b84c68);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: font-size 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              letter-spacing 0.7s ease;
+  text-align: center;
+  padding: 0 16px;
+}
+
+/* ─── SECTIONS ─── */
+section {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 100px 28px 80px;
+}
+
+/* ─── OPENING ─── */
+#s0 {
+  background: #0a0a0a;
+  z-index: 10;
+}
+
+.open-content {
+  text-align: center;
+  opacity: 0;
+  animation: fadeUp 1.2s 0.4s forwards;
+}
+.open-content p {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  margin-top: 7rem;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(30px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+/* ─── CONTENT SECTIONS ─── */
+.section-content {
+  max-width: 680px;
+  width: 100%;
+  position: relative;
+  z-index: 5;
+}
+
+.label {
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 18px;
+  display: block;
+}
+
+.headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.75rem, 6.5vw, 3.8rem);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.28;
+  margin-bottom: 24px;
+  color: #fff;
+}
+
+.headline em {
+  font-style: normal;
+  background: linear-gradient(90deg, #f5c6d0, #d4687e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.body-text {
+  font-size: clamp(0.95rem, 3.8vw, 1.2rem);
+  line-height: 1.9;
+  color: rgba(255,255,255,0.58);
+  font-weight: 300;
+  max-width: 560px;
+}
+
+.divider {
+  width: 36px;
+  height: 1px;
+  background: linear-gradient(90deg, #d4687e, transparent);
+  margin: 28px 0;
+}
+
+/* ─── BACKGROUNDS ─── */
+#s1 { background: #0d0608; }
+#s2 { background: #080d0a; }
+#s3 { background: #08080d; }
+#s4 { background: #0d0a06; }
+
+#s1::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 20% 50%, rgba(212,104,126,0.07) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(245,198,208,0.04) 0%, transparent 50%); }
+#s2::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 70% 60%, rgba(104,212,150,0.05) 0%, transparent 60%); }
+#s3::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 30% 40%, rgba(150,104,212,0.06) 0%, transparent 60%); }
+#s4::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 60% 50%, rgba(212,180,104,0.06) 0%, transparent 60%); }
+
+/* ─── SCROLL REVEAL ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.85s ease, transform 0.85s ease;
+}
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.12s; }
+.reveal-delay-2 { transition-delay: 0.24s; }
+.reveal-delay-3 { transition-delay: 0.38s; }
+
+/* ─── FLOATING PARTICLES ─── */
+.particle {
+  position: fixed;
+  border-radius: 50%;
+  background: rgba(245,198,208,0.5);
+  pointer-events: none;
+  z-index: 0;
+  animation: drift var(--dur, 8s) linear infinite var(--delay, 0s);
+}
+@keyframes drift {
+  0%   { transform: translateY(110vh) translateX(0); opacity: 0; }
+  10%  { opacity: 0.6; }
+  90%  { opacity: 0.3; }
+  100% { transform: translateY(-10vh) translateX(var(--dx, 30px)); opacity: 0; }
+}
+
+/* ─── FINAL SECTION ─── */
+#s4 .headline {
+  font-size: clamp(1.65rem, 6vw, 3.2rem);
+}
+
+.eyes-line {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1rem, 4vw, 1.5rem);
+  font-style: italic;
+  color: rgba(255,255,255,0.45);
+  margin-top: 28px;
+  line-height: 1.75;
+}
+.eyes-line strong {
+  font-style: normal;
+  color: rgba(255,255,255,0.85);
+  font-weight: 400;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: #0a0a0a;
+  text-align: center;
+  padding: 80px 28px;
+  position: relative;
+  z-index: 5;
+}
+
+footer .end-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 10vw, 5rem);
+  font-weight: 700;
+  font-style: italic;
+  background: linear-gradient(135deg, #f5c6d0, #d4687e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 20px;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+}
+footer .end-name.in { opacity:1; transform: scale(1); }
+
+footer .end-msg {
+  font-family: 'Lato', sans-serif;
+  font-size: clamp(0.8rem, 3.5vw, 1rem);
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.12em;
+  font-weight: 300;
+  line-height: 1.8;
+}
+
+/* ─── NAME SHRUNK STATE ─── */
+#name-header.shrunk {
+  height: 72px;
+  justify-content: flex-start;
+  padding-left: 24px;
+  align-items: center;
+}
+#name-header.shrunk .name-text {
+  font-size: clamp(1.6rem, 6vw, 2.8rem);
+  letter-spacing: 0.04em;
+}
+
+/* ─── PROGRESS DOTS ─── */
+.progress-dots {
+  position: fixed;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 200;
+}
+.dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  transition: all 0.4s ease;
+  cursor: pointer;
+  /* bigger tap target on mobile */
+  padding: 6px;
+  margin: -6px;
+}
+.dot.active {
+  background: #d4687e;
+  transform: scale(1.6);
+}
+
+/* ─── MOBILE-SPECIFIC OVERRIDES ─── */
+@media (max-width: 600px) {
+  /* section 2 right-align looks odd on small screens — centre it */
+  #s2 .section-content {
+    text-align: left !important;
+    margin-left: 0 !important;
+  }
+  #s2 .label { text-align: left !important; }
+  #s2 .divider {
+    margin-left: 0 !important;
+    background: linear-gradient(90deg, #d4687e, transparent) !important;
+  }
+  #s2 .body-text { margin-left: 0 !important; }
+
+  section { padding: 90px 24px 72px; }
+
+  .open-content p { margin-top: 6rem; }
+
+  /* hide dots on very small screens — too cramped */
+  .progress-dots { display: none; }
+
+  .headline br { display: none; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- Particles -->
+<div id="particles"></div>
+
+<!-- Sticky name -->
+<div id="name-header">
+  <div class="name-text" id="name-el">Sara</div>
+</div>
+
+<!-- Progress dots -->
+<div class="progress-dots" id="dots"></div>
+
+<!-- ── Section 0: Just the name floating ── -->
+<section id="s0">
+  <div class="open-content">
+    <p>scroll down ↓</p>
+  </div>
+</section>
+
+<!-- ── Section 1: How beautiful she is ── -->
+<section id="s1">
+  <div class="section-content">
+    <span class="label reveal">01 — beautiful</span>
+    <h2 class="headline reveal reveal-delay-1">
+      There's something about you,<br>
+      that is <em>genuinely unfair</em> to the rest of the world.
+    </h2>
+    <div class="divider reveal reveal-delay-2"></div>
+    <p class="body-text reveal reveal-delay-2">
+      You have no idea how beautiful you are, and that's honestly the most beautiful thing about it.
+      You look so pretty without even trying, effortlessly, like it just comes natural to you
+      and nothing in the world even comes close to comparing.
+      Every single part of you is just perfect your eyes, your hair, your smile, absolutely everything.
+      I could ramble on and on about how beautiful and how mesmerising you are
+      and I genuinely would never run out of things to say.
+      But it's not just the way you look. You're beautiful by your heart
+      and your personality too. Every single part of you.
+      The whole package. It's genuinely unfair to everyone else.
+    </p>
+  </div>
+</section>
+
+<!-- ── Section 2: How kind she is ── -->
+<section id="s2">
+  <div class="section-content" style="text-align: right; margin-left: auto;">
+    <span class="label reveal" style="display:block; text-align:right;">02 — kind</span>
+    <h2 class="headline reveal reveal-delay-1">
+      You have a beautiful face —<br>
+      and an even <em>more beautiful heart.</em>
+    </h2>
+    <div class="divider reveal reveal-delay-2" style="margin-left:auto; background: linear-gradient(270deg, #d4687e, transparent);"></div>
+    <p class="body-text reveal reveal-delay-2" style="margin-left:auto;">
+      You are so genuinely kind — I don't think I've ever come across someone
+      who has a face that beautiful and a heart that beautiful at the same time.
+      You make sure everyone around you is okay. You go the extra mile without ever making it a big thing.
+      You try to remember the small details about everyone
+      (and okay, sometimes it slips your mind, lmao, but we don't talk about that)
+      jokes apart though, you do so much for the people around you, quietly, without needing any credit for it.
+      And I genuinely mean this with everything: you are one of the most amazing people
+      I have ever come across in my life. That is not a small thing to be.
+    </p>
+  </div>
+</section>
+
+<!-- ── Section 3: Eyes and smile ── -->
+<section id="s3">
+  <div class="section-content">
+    <span class="label reveal">03 — your eyes. your smile.</span>
+    <h2 class="headline reveal reveal-delay-1">
+      Your eyes have this way of saying things<br>
+      you haven't even <em>said out loud yet.</em>
+    </h2>
+    <div class="divider reveal reveal-delay-2"></div>
+    <p class="body-text reveal reveal-delay-2">
+      Those deep brown eyes ugh, I don't even know where to start.
+      I could look at them and never once get bored, not even close.
+      There's something so soothing about them, something that just settles everything.
+      Like the whole world could be loud and messy but one look and it's fine.
+       They have this way of making you feel like you're the only person in the world that matters, like nothing else is important except you and them.
+    </p>
+    <p class="eyes-line reveal reveal-delay-3">
+      And that smile —<br>
+      <strong>I would do absolutely anything in this world just to be the reason for it.</strong><br>
+      Please keep smiling. Nothing else even comes close to that.
+    </p>
+  </div>
+</section>
+
+<!-- ── Section 4: What she means to me ── -->
+<section id="s4">
+  <div class="section-content" style="margin: 0 auto;">
+    <span class="label reveal">04 — what you mean to me</span>
+    <h2 class="headline reveal reveal-delay-1">
+      honestly, you just make everything<br>
+      <em>so much better.</em>
+    </h2>
+    <div class="divider reveal reveal-delay-2"></div>
+    <p class="body-text reveal reveal-delay-2">
+      You are like my double shot espresso, you make me so happy just by being you.
+      Your personality, your excitement, your everything is just divine.
+      Talking to you makes me energetic, makes me happy, takes the worst day
+      and somehow flips it completely. You make me the happiest person in the world,
+      genuinely, and sometimes just looking at you is enough to turn me into a complete toddler about it.
+      Seeing you happy, making you smile,  that's the one thing that does it for me every single time.
+      You are the most amazing human I know, and every dream I get of you makes me wake up smiling.
+      I don't even know how you do it, but you always know how to cheer me up
+      without me even saying anything was wrong.
+      Please always be happy. Please never stop doing that.
+      And just know, you will always, always be part of my prayers.
+      Always.
+    </p>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer id="footer">
+  <div class="end-name" id="end-name">always keep smiling.</div>
+  <p class="end-msg">i'll always be watching over you &nbsp;·&nbsp; 🌸</p>
+</footer>
+
+<script>
+// ── PARTICLES ──
+const pWrap = document.getElementById('particles');
+const isMobile = window.innerWidth < 600;
+const particleCount = isMobile ? 14 : 25;
+for(let i = 0; i < particleCount; i++){
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const size = isMobile ? 1 + Math.random()*2 : 1 + Math.random()*3;
+  p.style.cssText = `
+    left: ${Math.random()*100}%;
+    --dur: ${7 + Math.random()*10}s;
+    --delay: ${Math.random()*10}s;
+    --dx: ${(Math.random()-0.5)*60}px;
+    width: ${size}px;
+    height: ${size}px;
+    opacity: ${0.2+Math.random()*0.4};
+  `;
+  pWrap.appendChild(p);
+}
+
+// ── SECTIONS + DOTS ──
+const sections = ['s0','s1','s2','s3','s4'];
+const dotsWrap = document.getElementById('dots');
+sections.forEach((id, i) => {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i===0?' active':'');
+  d.onclick = () => document.getElementById(id).scrollIntoView({behavior:'smooth'});
+  dotsWrap.appendChild(d);
+});
+
+// ── SCROLL LOGIC ──
+const header = document.getElementById('name-header');
+const nameEl = document.getElementById('name-el');
+const endName = document.getElementById('end-name');
+const reveals = document.querySelectorAll('.reveal');
+const dotEls  = document.querySelectorAll('.dot');
+
+function onScroll(){
+  const scrollY = window.scrollY;
+  const vh = window.innerHeight;
+
+  // Shrink name after first section
+  if(scrollY > vh * 0.5){
+    header.classList.add('shrunk');
+  } else {
+    header.classList.remove('shrunk');
+  }
+
+  // Active dot
+  let activeIdx = 0;
+  sections.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if(el){
+      const rect = el.getBoundingClientRect();
+      if(rect.top <= vh * 0.5) activeIdx = i;
+    }
+  });
+  dotEls.forEach((d,i) => d.classList.toggle('active', i===activeIdx));
+
+  // Reveal on scroll
+  reveals.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if(rect.top < vh * 0.85){
+      el.classList.add('in');
+    }
+  });
+
+  // Footer name
+  const footerRect = document.getElementById('footer').getBoundingClientRect();
+  if(footerRect.top < vh * 0.7){
+    endName.classList.add('in');
+  }
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+</script>
+</body>
+</html>
